@@ -1,0 +1,11 @@
+{
+  "VirtualPuckDriver_Mode": "mock",
+  "VirtualPuckDriver_Debug": 0,
+  "VirtualPuckDriver_TrackerName": "ARCADECABVR_01",
+  "VirtualPuckDriver_TrackerModel": "ArcadeCabVR Tracker v1",
+  "VirtualPuckDriver_ListenIP": "239.255.42.120",
+  "VirtualPuckDriver_LocalIP": "0.0.0.0",
+  "VirtualPuckDriver_ListenPort": 8205,
+  "VirtualPuckDriver_ClientIP": "0.0.0.0/0",
+  "VirtualPuckDriver_InvalidatePoseAfter": 2000
+}

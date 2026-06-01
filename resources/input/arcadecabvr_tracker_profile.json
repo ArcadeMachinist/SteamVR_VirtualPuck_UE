@@ -1,0 +1,14 @@
+{
+  "jsonid": "input_profile",
+  "controller_type": "arcadecabvr_tracker",
+  "input_bindingui_mode": "single_device",
+  "input_source": {
+    "/input/system": {
+      "type": "button",
+      "click": true,
+      "order": 1,
+      "binding_image_point": [ 0.5, 0.5 ]
+    }
+  },
+  "default_bindings": []
+}
