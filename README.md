@@ -1,6 +1,9 @@
-# ArcadeCabVR
+# ArcadeCabVR Virtual Puck
 
 Virtual SteamVR tracker driver for motion platform arcade cabinets, plus an Unreal Engine plugin to consume tracker data in games.
+
+<img width="2412" height="1049" alt="Screenshot 2026-05-30 230209" src="https://github.com/user-attachments/assets/ec53ba70-5420-432e-adb9-2a36b1933207" />
+
 
 ## Overview
 
