@@ -4,9 +4,11 @@ Virtual SteamVR tracker driver for motion platform arcade cabinets, plus an Unre
 
 ## Overview
 
-ArcadeCabVR exposes a motion platform's physical pitch and roll as a standard SteamVR generic tracker. Games see it as a hardware tracking device — no special integration needed beyond reading a tracker pose. The motion platform's motion controller reads shaft angles from rotary encoders on the driveshafts and streams them over UDP.
+ArcadeCabVR exposes a motion platform's physical pitch and roll as a standard SteamVR generic tracker. 
+Games see it as a hardware tracking device — no special integration needed beyond reading a tracker pose. 
+The motion platform's motion controller receives calculated pitch/roll from MotionCommander, that reads shaft angles from rotary encoders on the driveshafts and streams them over UDP multicast to this driver.
 
-This project was created specifically for ASHLAND Technologies X5 simulator, more widely known as Dave & Busters 4 seater VR ride platform.
+This project was created specifically for ASHLAND Technologies X5 simulator, more widely known as Dave & Busters 4 seater VR ride platform, to enable development of new custom VR rides, untethered from D&B.
 
 The project has two components:
 
@@ -16,10 +18,6 @@ The project has two components:
 ### Why a SteamVR driver instead of direct UDP in Unreal
 
 The driver approach makes the motion platform look like standard hardware to SteamVR. Any game on the platform — regardless of engine — can read the tracker pose without modification. Pose data is also temporally aligned with HMD pose at the SteamVR compositor level. The Unreal plugin is a convenience layer on top, not a requirement.
-
-### Why rotary encoders, not IMUs
-
-The driveshafts have rotary encoders that read absolute shaft angle directly. This gives zero drift, zero noise, and no integration error — properties an IMU cannot match for positional tracking. The encoder zero point is set at motion controller startup; the platform must be at rest at power-on for the reference to be accurate.
 
 ---
 
@@ -196,17 +194,6 @@ C:\Program Files (x86)\Steam\logs\vrserver.txt
 
 Search for `[ArcadeCabVR]` to filter driver output. Enable `VirtualPuckDriver_Debug: 1` in the config to log individual packets.
 
----
-
-## Clearing a Stale Device Entry
-
-SteamVR remembers past devices by serial. If you change `VirtualPuckDriver_TrackerName` or need to clear an old entry:
-
-1. Close SteamVR (`vrserver.exe` must not be running)
-2. Open `C:\Program Files (x86)\Steam\config\steamvr.vrsettings`
-3. Remove any section referencing the old serial
-4. Delete `C:\Program Files (x86)\Steam\config\driver_arcadecabvr.vrconfig` if it exists
-5. Restart SteamVR
 
 ---
 
