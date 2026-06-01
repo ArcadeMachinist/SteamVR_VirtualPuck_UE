@@ -86,7 +86,9 @@ public:
 
     bool ShouldBlockStandbyMode() override { return false; }
     void EnterStandby() override {}
-    void LeaveStandby() override {}
+    void LeaveStandby() override {
+        if (g_tracker) g_tracker->WakeUp();
+    }
 };
 
 static VRPlayServerProvider g_provider;

@@ -75,6 +75,19 @@ void TrackerDevice::Deactivate() {
     m_deviceId = vr::k_unTrackedDeviceIndexInvalid;
 }
 
+void TrackerDevice::EnterStandby() {
+    m_inStandby = true;
+    VRLog("[ArcadeCabVR] Entering standby");
+}
+
+void TrackerDevice::WakeUp() {
+    m_inStandby = false;
+    VRLog("[ArcadeCabVR] Waking from standby");
+    // Pose loop resumes on its next iteration — do not call TrackedDevicePoseUpdated
+    // here, as WakeUp() is invoked from SteamVR's LeaveStandby() callback and calling
+    // back into SteamVR from within that callback causes a re-entrancy crash.
+}
+
 vr::DriverPose_t TrackerDevice::GetPose() {
     std::lock_guard<std::mutex> lock(m_networkMutex);
     return m_pose;
@@ -94,6 +107,11 @@ void TrackerDevice::MockPoseLoop() {
     constexpr float kLimit = 3.14159265f / 4.0f;  // ±45° soft ceiling
 
     while (m_running) {
+        if (m_inStandby) {
+            std::this_thread::sleep_for(milliseconds(100));
+            continue;
+        }
+
         m_pitch += delta(rng);
         m_roll  += delta(rng);
 
@@ -134,6 +152,11 @@ void TrackerDevice::NetworkPoseLoop() {
     m_udpListener->Start();
 
     while (m_running) {
+        if (m_inStandby) {
+            std::this_thread::sleep_for(milliseconds(100));
+            continue;
+        }
+
         vr::DriverPose_t pose;
         {
             std::lock_guard<std::mutex> lock(m_networkMutex);

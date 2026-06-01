@@ -16,7 +16,8 @@ public:
 
     vr::EVRInitError Activate(uint32_t unObjectId) override;
     void Deactivate() override;
-    void EnterStandby() override {}
+    void EnterStandby() override;
+    void WakeUp();
     void* GetComponent(const char* pchComponentNameAndVersion) override { return nullptr; }
     void DebugRequest(const char* pchRequest, char* pchResponseBuffer, uint32_t unResponseBufferSize) override {}
     vr::DriverPose_t GetPose() override;
@@ -29,6 +30,7 @@ private:
     vr::DriverPose_t m_pose{};
 
     std::atomic<bool> m_running{ false };
+    std::atomic<bool> m_inStandby{ false };
     std::thread       m_poseThread;
 
     float m_pitch = 0.0f;
